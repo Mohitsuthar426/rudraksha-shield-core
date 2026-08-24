@@ -30,7 +30,7 @@
             padding-bottom: 12px;
             margin-bottom: 20px;
         }
-        input, select {
+        input {
             width: 100%;
             background: #000;
             border: 1px solid #00ff66;
@@ -55,7 +55,7 @@
         .tool-card { border: 1px solid #1e293b; background: #080f1d; padding: 15px; border-radius: 4px; }
         .tool-card h4 { margin: 0 0 8px 0; color: #38bdf8; }
         .tool-card p { font-size: 0.8em; color: #94a3b8; margin-bottom: 10px; }
-        .terminal-box { background: #000; border: 1px solid #334155; padding: 12px; color: #facc15; font-size: 0.8em; min-height: 120px; max-height: 220px; overflow-y: auto; white-space: pre-wrap; margin-top: 15px; }
+        .terminal-box { background: #000; border: 1px solid #334155; padding: 12px; color: #facc15; font-size: 0.8em; min-height: 140px; max-height: 240px; overflow-y: auto; white-space: pre-wrap; margin-top: 15px; }
         .tab-bar { display: flex; gap: 5px; margin-bottom: 15px; }
         .tab-btn { background: #0b1329; color: #94a3b8; padding: 8px; border: 1px solid #1e293b; flex: 1; }
         .tab-btn.active { color: #00ff66; border-color: #00ff66; }
@@ -67,10 +67,10 @@
 <div class="container">
     <div class="header">
         <h2>🛡️ RUDRAKSHA SHIELD // COMMAND CORE</h2>
-        <div style="color:#38bdf8; font-size:0.8em;">AUTONOMOUS AI SECURITY & AUDIT SUITE</div>
+        <div style="color:#38bdf8; font-size:0.8em;">AUTONOMOUS REALTIME AI SECURITY SUITE</div>
     </div>
 
-    <!-- Auth Sections -->
+    <!-- Auth Section -->
     <div id="authContainer" style="max-width:420px; margin: 0 auto;">
         <div class="tab-bar">
             <button class="tab-btn active" id="tabLogin" onclick="switchAuth('login')">LOGIN</button>
@@ -97,7 +97,7 @@
         <div id="authMsg" style="margin-top:10px; color:#f43f5e; font-size:0.85em; text-align:center;"></div>
     </div>
 
-    <!-- Full Operational Suite (Post Login) -->
+    <!-- Real Operational Tools -->
     <div id="mainDashboard" style="display:none;">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1e293b; padding-bottom:10px;">
             <div>
@@ -108,51 +108,50 @@
         </div>
 
         <div class="grid">
-            <!-- Tool 1: Live Domain / API Vulnerability Scanner -->
+            <!-- Real Tool 1 -->
             <div class="tool-card">
-                <h4>🔍 01. Dynamic Vulnerability Scanner</h4>
-                <p>Run Zero-Trust security scan on any URL / API endpoint.</p>
-                <input type="text" id="scanTarget" placeholder="https://example.com" value="https://google.com">
-                <button onclick="runTool('scan')">START SCAN</button>
+                <h4>🔍 01. Real Target Vulnerability Scan</h4>
+                <p>Live Header, SSL & OWASP inspection against target domain.</p>
+                <input type="text" id="scanTarget" placeholder="example.com" value="https://google.com">
+                <button onclick="executeRealScan()">RUN LIVE SCAN</button>
             </div>
 
-            <!-- Tool 2: Dark Web & Credential Threat Intel -->
+            <!-- Real Tool 2 -->
             <div class="tool-card">
-                <h4>🕵️ 02. Dark Web & Breach Intel</h4>
-                <p>Lookup exposed database records and domain leaks.</p>
-                <input type="text" id="threatTarget" placeholder="company.com or email" value="mohit@enterprise.com">
-                <button onclick="runTool('threat')">QUERY INTEL</button>
+                <h4>🕵️ 02. Real DNS & Threat Intel</h4>
+                <p>Live Ingress IP resolution and perimeter risk calculation.</p>
+                <input type="text" id="threatTarget" placeholder="domain.com" value="github.com">
+                <button onclick="executeRealThreat()">QUERY LIVE DNS INTEL</button>
             </div>
 
-            <!-- Tool 3: Multi-Agent AI Swarm Defense -->
+            <!-- Real Tool 3 -->
             <div class="tool-card">
-                <h4>🤖 03. Multi-Agent AI Swarm</h4>
-                <p>Deploy 8 autonomous AI agents for automated threat defense.</p>
-                <button style="background:#38bdf8; margin-top:28px;" onclick="runTool('swarm')">DISPATCH SWARM AGENTS</button>
+                <h4>🤖 03. Multi-Agent Swarm Sync</h4>
+                <p>Dispatch active 8-Agent defense grid telemetry.</p>
+                <button style="background:#38bdf8; margin-top:28px;" onclick="executeRealSwarm()">DISPATCH SWARM</button>
             </div>
 
-            <!-- Tool 4: Executive Security Audit Generator -->
+            <!-- Real Tool 4 -->
             <div class="tool-card">
-                <h4>📄 04. Executive Audit Report</h4>
-                <p>Generate cryptographic SHA-256 verified PDF/HTML audit report.</p>
-                <button style="background:#facc15;" onclick="runTool('report')">GENERATE AUDIT REPORT</button>
+                <h4>📄 04. Executive Audit Export</h4>
+                <p>Generate & download official HTML/PDF audit certificate.</p>
+                <button style="background:#facc15;" onclick="executeRealReport()">DOWNLOAD AUDIT REPORT</button>
             </div>
         </div>
 
-        <!-- Realtime Output Console -->
-        <h4 style="margin-top:20px; color:#38bdf8;">LIVE TERMINAL & AUDIT LOGS:</h4>
-        <div class="terminal-box" id="consoleOut">> Rudraksha Security Swarm initialized. Select a tool to execute...</div>
+        <h4 style="margin-top:20px; color:#38bdf8;">LIVE BACKEND LOGS:</h4>
+        <div class="terminal-box" id="consoleOut">> Backend engine ready. Select a live tool above...</div>
     </div>
 </div>
 
 <script>
 let currentUser = null;
 
-function switchAuth(type) {
-    document.getElementById('loginForm').style.display = type === 'login' ? 'block' : 'none';
-    document.getElementById('regForm').style.display = type === 'register' ? 'block' : 'none';
-    document.getElementById('tabLogin').classList.toggle('active', type === 'login');
-    document.getElementById('tabReg').classList.toggle('active', type === 'register');
+function switchAuth(t) {
+    document.getElementById('loginForm').style.display = t === 'login' ? 'block' : 'none';
+    document.getElementById('regForm').style.display = t === 'register' ? 'block' : 'none';
+    document.getElementById('tabLogin').classList.toggle('active', t === 'login');
+    document.getElementById('tabReg').classList.toggle('active', t === 'register');
 }
 
 async function authAction(endpoint) {
@@ -180,7 +179,7 @@ async function authAction(endpoint) {
             document.getElementById('mainDashboard').style.display = 'block';
             document.getElementById('dName').innerText = currentUser.name;
             document.getElementById('dPlan').innerText = currentUser.plan;
-            logConsole(`[+] Authenticated as ${currentUser.email} (${currentUser.plan})\n[+] Enterprise License Active: ${currentUser.license_key}`);
+            logConsole(`[+] Realtime Engine Authenticated for: ${currentUser.email}\n[+] License Key: ${currentUser.license_key}`);
         } else {
             alert(data.message);
             switchAuth('login');
@@ -196,31 +195,54 @@ function logConsole(text) {
     box.scrollTop = box.scrollHeight;
 }
 
-async function runTool(tool) {
-    const box = document.getElementById('consoleOut');
-    if (tool === 'scan') {
-        const target = document.getElementById('scanTarget').value;
-        logConsole(`\n[*] [Module 05] Initiating Vulnerability Scan against ${target}...`);
-        logConsole(`[*] Checking TLS/SSL ciphers... [OK: TLS 1.3]`);
-        logConsole(`[*] Probing OWASP Top 10 vectors (XSS, SQLi, CSRF)... [PASSED]`);
-        logConsole(`[+] Scan Complete. Target security score: 92/100.`);
-    } else if (tool === 'threat') {
-        const query = document.getElementById('threatTarget').value;
-        logConsole(`\n[*] [Module 06] Querying Dark Web & Telegram leak indexes for: ${query}...`);
-        logConsole(`[+] 0 Critical plaintext passwords found in public dumps.`);
-        logConsole(`[+] Domain risk exposure index: LOW (0.12).`);
-    } else if (tool === 'swarm') {
-        logConsole(`\n[*] [Module 13] Triggering Multi-Agent Defense Swarm...`);
-        logConsole(`[+] Agent 1 (Perimeter Sentinel): ACTIVE`);
-        logConsole(`[+] Agent 2 (DLP Cryptographer): ACTIVE`);
-        logConsole(`[+] Agent 3 (SIEM Log Dispatcher): ACTIVE`);
-        logConsole(`[✓] Autonomous swarm grid operational across all microservices.`);
-    } else if (tool === 'report') {
-        logConsole(`\n[*] [Module 21] Synthesizing ISO 27001 / CERT-In Executive Report...`);
-        logConsole(`[+] SHA-256 Forensic Hash: d9f823a07c12f6e9921bc4e9...`);
-        logConsole(`[✓] Executive Report ready for export.`);
-        alert("Executive Report Generated & Ready for Client Review!");
-    }
+async function executeRealScan() {
+    const target = document.getElementById('scanTarget').value;
+    logConsole(`\n[*] [Backend Engine] Connecting to target: ${target}...`);
+    const res = await fetch('/api/tools/scan', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({target: target})
+    });
+    const data = await res.json();
+    data.logs.forEach(l => logConsole(l));
+    logConsole(`[✓] Security Posture Calculated: ${data.score}/100`);
+}
+
+async function executeRealThreat() {
+    const target = document.getElementById('threatTarget').value;
+    logConsole(`\n[*] [DNS Intel Engine] Querying live host records for: ${target}...`);
+    const res = await fetch('/api/tools/threat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({target: target})
+    });
+    const data = await res.json();
+    data.logs.forEach(l => logConsole(l));
+}
+
+async function executeRealSwarm() {
+    logConsole(`\n[*] [Swarm Grid] Contacting 8 Autonomous Sentinel Nodes...`);
+    const res = await fetch('/api/tools/swarm', {method: 'POST'});
+    const data = await res.json();
+    data.logs.forEach(l => logConsole(l));
+}
+
+async function executeRealReport() {
+    logConsole(`\n[*] [Report Engine] Generating Cryptographic Audit Document...`);
+    const res = await fetch('/api/tools/report', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({client: currentUser ? currentUser.name : "Enterprise"})
+    });
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Rudraksha_Audit_Report.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    logConsole(`[✓] Audit Report successfully synthesized and downloaded!`);
 }
 </script>
 
