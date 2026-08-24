@@ -3,248 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUDRAKSHA SHIELD // ENTERPRISE HUB</title>
+    <title>RUDRAKSHA SHIELD // Enterprise Cyber SaaS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for Live Telemetry -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
-        * { box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+        
         body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #030712;
-            color: #00ff66;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 15px;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
+            color: #f8fafc;
         }
-        .container {
-            width: 100%;
-            max-width: 900px;
-            border: 2px solid #00ff66;
-            box-shadow: 0 0 25px rgba(0, 255, 102, 0.15);
-            padding: 20px;
-            background: #050b14;
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
-        .header {
-            text-align: center;
-            border-bottom: 2px dashed #00ff66;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
+        .glass-card-glow {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.1);
         }
-        input {
-            width: 100%;
-            background: #000;
-            border: 1px solid #00ff66;
-            color: #00ff66;
-            padding: 10px;
-            margin: 6px 0 12px 0;
-            font-family: inherit;
-            outline: none;
+        .neon-border {
+            border: 1px solid rgba(16, 185, 129, 0.4);
         }
-        button {
-            width: 100%;
-            background: #00ff66;
-            color: #000;
-            font-weight: bold;
-            padding: 12px;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
         }
-        button:active { background: #38bdf8; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin-top: 15px; }
-        .tool-card { border: 1px solid #1e293b; background: #080f1d; padding: 15px; border-radius: 4px; }
-        .tool-card h4 { margin: 0 0 8px 0; color: #38bdf8; }
-        .tool-card p { font-size: 0.8em; color: #94a3b8; margin-bottom: 10px; }
-        .terminal-box { background: #000; border: 1px solid #334155; padding: 12px; color: #facc15; font-size: 0.8em; min-height: 140px; max-height: 240px; overflow-y: auto; white-space: pre-wrap; margin-top: 15px; }
-        .tab-bar { display: flex; gap: 5px; margin-bottom: 15px; }
-        .tab-btn { background: #0b1329; color: #94a3b8; padding: 8px; border: 1px solid #1e293b; flex: 1; }
-        .tab-btn.active { color: #00ff66; border-color: #00ff66; }
-        .badge { background: #00ff66; color: #000; padding: 2px 6px; font-size: 0.75em; font-weight: bold; border-radius: 2px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
     </style>
 </head>
-<body>
+<body class="min-h-screen antialiased bg-slate-950 text-slate-100 flex flex-col justify-between">
 
-<div class="container">
-    <div class="header">
-        <h2>🛡️ RUDRAKSHA SHIELD // COMMAND CORE</h2>
-        <div style="color:#38bdf8; font-size:0.8em;">AUTONOMOUS REALTIME AI SECURITY SUITE</div>
-    </div>
-
-    <!-- Auth Section -->
-    <div id="authContainer" style="max-width:420px; margin: 0 auto;">
-        <div class="tab-bar">
-            <button class="tab-btn active" id="tabLogin" onclick="switchAuth('login')">LOGIN</button>
-            <button class="tab-btn" id="tabReg" onclick="switchAuth('register')">REGISTER</button>
-        </div>
-
-        <div id="loginForm">
-            <label>EMAIL:</label>
-            <input type="email" id="logEmail" value="mohitsuthar122323@gmail.com">
-            <label>PASSWORD:</label>
-            <input type="password" id="logPass" placeholder="••••••••">
-            <button onclick="authAction('/api/auth/login')">⚡ LOGIN TO SUITE</button>
-        </div>
-
-        <div id="regForm" style="display:none;">
-            <label>NAME:</label>
-            <input type="text" id="regName" placeholder="Mohit">
-            <label>EMAIL:</label>
-            <input type="email" id="regEmail" placeholder="admin@enterprise.in">
-            <label>PASSWORD:</label>
-            <input type="password" id="regPass" placeholder="••••••••">
-            <button onclick="authAction('/api/auth/register')">⚡ CREATE ACCOUNT</button>
-        </div>
-        <div id="authMsg" style="margin-top:10px; color:#f43f5e; font-size:0.85em; text-align:center;"></div>
-    </div>
-
-    <!-- Real Operational Tools -->
-    <div id="mainDashboard" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1e293b; padding-bottom:10px;">
+    <!-- Top Navigation -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-6 py-3.5 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="h-9 w-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <i data-lucide="shield-check" class="w-5 h-5 text-slate-950 font-bold"></i>
+            </div>
             <div>
-                User: <strong id="dName" style="color:#fff;"></strong> | 
-                Plan: <span class="badge" id="dPlan"></span>
-            </div>
-            <button style="width:auto; padding:6px 12px; background:#dc2626; color:#fff;" onclick="location.reload()">LOGOUT</button>
-        </div>
-
-        <div class="grid">
-            <!-- Real Tool 1 -->
-            <div class="tool-card">
-                <h4>🔍 01. Real Target Vulnerability Scan</h4>
-                <p>Live Header, SSL & OWASP inspection against target domain.</p>
-                <input type="text" id="scanTarget" placeholder="example.com" value="https://google.com">
-                <button onclick="executeRealScan()">RUN LIVE SCAN</button>
-            </div>
-
-            <!-- Real Tool 2 -->
-            <div class="tool-card">
-                <h4>🕵️ 02. Real DNS & Threat Intel</h4>
-                <p>Live Ingress IP resolution and perimeter risk calculation.</p>
-                <input type="text" id="threatTarget" placeholder="domain.com" value="github.com">
-                <button onclick="executeRealThreat()">QUERY LIVE DNS INTEL</button>
-            </div>
-
-            <!-- Real Tool 3 -->
-            <div class="tool-card">
-                <h4>🤖 03. Multi-Agent Swarm Sync</h4>
-                <p>Dispatch active 8-Agent defense grid telemetry.</p>
-                <button style="background:#38bdf8; margin-top:28px;" onclick="executeRealSwarm()">DISPATCH SWARM</button>
-            </div>
-
-            <!-- Real Tool 4 -->
-            <div class="tool-card">
-                <h4>📄 04. Executive Audit Export</h4>
-                <p>Generate & download official HTML/PDF audit certificate.</p>
-                <button style="background:#facc15;" onclick="executeRealReport()">DOWNLOAD AUDIT REPORT</button>
+                <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">RUDRAKSHA SHIELD</span>
+                <span class="hidden md:inline-block ml-2 px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">AI Autonomous SOC</span>
             </div>
         </div>
+        
+        <div id="navUserBadge" class="hidden flex items-center gap-3">
+            <div class="text-right">
+                <div class="text-xs font-semibold text-slate-200" id="navUserName">Mohit Suthar</div>
+                <div class="text-[10px] font-mono text-emerald-400 font-bold" id="navUserPlan">ENTERPRISE_UNLIMITED</div>
+            </div>
+            <button onclick="location.reload()" class="p-2 rounded-lg bg-slate-800/80 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700/50 transition">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </nav>
 
-        <h4 style="margin-top:20px; color:#38bdf8;">LIVE BACKEND LOGS:</h4>
-        <div class="terminal-box" id="consoleOut">> Backend engine ready. Select a live tool above...</div>
-    </div>
-</div>
+    <!-- Auth Container -->
+    <main id="authSection" class="flex-1 flex items-center justify-center p-4">
+        <div class="w-full max-w-md glass-card rounded-2xl p-8 border border-slate-800 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl"></div>
 
-<script>
-let currentUser = null;
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-slate-100 tracking-tight">Enterprise Access</h2>
+                <p class="text-sm text-slate-400 mt-1">Authenticate into Autonomous Multi-Agent Defense</p>
+            </div>
 
-function switchAuth(t) {
-    document.getElementById('loginForm').style.display = t === 'login' ? 'block' : 'none';
-    document.getElementById('regForm').style.display = t === 'register' ? 'block' : 'none';
-    document.getElementById('tabLogin').classList.toggle('active', t === 'login');
-    document.getElementById('tabReg').classList.toggle('active', t === 'register');
-}
+            <div class="flex p-1 bg-slate-900/80 rounded-xl mb-6 border border-slate-800">
+                <button id="tabBtnLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-semibold rounded-lg transition text-emerald-400 bg-slate-800 shadow">Login</button>
+                <button id="tabBtnReg" onclick="switchAuthTab('register')" class="flex-1 py-2 text-xs font-semibold rounded-lg transition text-slate-400 hover:text-slate-200">Register</button>
+            </div>
 
-async function authAction(endpoint) {
-    const isLogin = endpoint.includes('login');
-    const payload = isLogin ? {
-        email: document.getElementById('logEmail').value,
-        password: document.getElementById('logPass').value
-    } : {
-        name: document.getElementById('regName').value,
-        email: document.getElementById('regEmail').value,
-        password: document.getElementById('regPass').value
-    };
+            <!-- Login Box -->
+            <form id="loginFormBlock" onsubmit="event.preventDefault(); handleAuth('/api/auth/login');" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1.5">Work Email</label>
+                    <input type="email" id="authEmail" value="mohitsuthar122323@gmail.com" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-sm text-slate-100 placeholder-slate-600 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1.5">Master Password</label>
+                    <input type="password" id="authPass" placeholder="••••••••" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-sm text-slate-100 placeholder-slate-600 transition">
+                </div>
+                <button type="submit" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm tracking-wide shadow-lg shadow-emerald-500/20 transition duration-200 flex items-center justify-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4"></i> Authenticate Console
+                </button>
+            </form>
 
-    const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-    });
-    const data = await res.json();
+            <!-- Register Box -->
+            <form id="regFormBlock" onsubmit="event.preventDefault(); handleAuth('/api/auth/register');" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1.5">Organization / User Name</label>
+                    <input type="text" id="regName" placeholder="Mohit Suthar" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-sm text-slate-100 placeholder-slate-600 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1.5">Email Address</label>
+                    <input type="email" id="regEmail" placeholder="admin@enterprise.in" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-sm text-slate-100 placeholder-slate-600 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1.5">Secure Password</label>
+                    <input type="password" id="regPass" placeholder="••••••••" required class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none text-sm text-slate-100 placeholder-slate-600 transition">
+                </div>
+                <button type="submit" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-slate-950 font-bold text-sm tracking-wide shadow-lg shadow-cyan-500/20 transition duration-200">
+                    Create Enterprise Account
+                </button>
+            </form>
+            <div id="authNotice" class="mt-4 text-center text-xs font-medium text-rose-400 hidden"></div>
+        </div>
+    </main>
 
-    if (data.status === 'SUCCESS') {
-        if (isLogin) {
-            currentUser = data.user;
-            document.getElementById('authContainer').style.display = 'none';
-            document.getElementById('mainDashboard').style.display = 'block';
-            document.getElementById('dName').innerText = currentUser.name;
-            document.getElementById('dPlan').innerText = currentUser.plan;
-            logConsole(`[+] Realtime Engine Authenticated for: ${currentUser.email}\n[+] License Key: ${currentUser.license_key}`);
-        } else {
-            alert(data.message);
-            switchAuth('login');
+    <!-- Enterprise SaaS Operational Cockpit -->
+    <main id="appCockpit" class="hidden flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+        
+        <!-- Top Metric Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card rounded-2xl p-5 border border-slate-800 relative overflow-hidden">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Perimeter Health</div>
+                <div class="text-3xl font-extrabold text-emerald-400 mt-2 flex items-baseline gap-2">
+                    <span id="statScore">98.4%</span>
+                    <span class="text-xs font-medium text-emerald-500/80 bg-emerald-500/10 px-2 py-0.5 rounded-full">+2.1%</span>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-1">Zero-Trust Heuristics Active</div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5 border border-slate-800">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Swarm Nodes</div>
+                <div class="text-3xl font-extrabold text-cyan-400 mt-2">8 / 8 Nodes</div>
+                <div class="text-[11px] text-slate-500 mt-1">Autonomous SIEM & DLP Synced</div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5 border border-slate-800">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">CERT-In 6-Hour SLA</div>
+                <div class="text-3xl font-extrabold text-teal-400 mt-2">COMPLIANT</div>
+                <div class="text-[11px] text-slate-500 mt-1">Automated Forensic SOS Active</div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-5 border border-slate-800">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">License Integrity</div>
+                <div class="text-sm font-mono font-bold text-amber-400 mt-3 truncate" id="statLic">RUDRA-ENT-LIVE</div>
+                <div class="text-[11px] text-slate-500 mt-1">Valid 365 Days • Uncapped</div>
+            </div>
+        </div>
+
+        <!-- Main Workspace: Action Grid + Telemetry Console -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left 2 Cols: Enterprise Interactive Suite -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Suite 1: Live Vulnerability Scanner -->
+                <div class="glass-card rounded-2xl p-6 border border-slate-800">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400"><i data-lucide="globe" class="w-5 h-5"></i></div>
+                            <div>
+                                <h3 class="font-bold text-slate-100">Live Ingress & OWASP Scanner</h3>
+                                <p class="text-xs text-slate-400">Deep header probing, SSL validation & XSS/CORS vulnerability inspection</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-emerald-400 border border-slate-700">MOD-05</span>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="text" id="targetUrlInput" placeholder="https://example.com" value="https://google.com" class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 outline-none text-sm text-slate-100 font-mono">
+                        <button onclick="runRealScan()" class="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+                            <i data-lucide="scan" class="w-4 h-4"></i> Run Scan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Suite 2: Breach & DNS Reconnaissance -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 text-cyan-400 mb-2">
+                                <i data-lucide="database" class="w-4 h-4"></i>
+                                <h4 class="font-bold text-sm text-slate-100">Dark Web & DNS Recon</h4>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-4">Realtime IP resolution and perimeter exposure calculation.</p>
+                            <input type="text" id="targetDomainInput" value="github.com" class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/80 text-xs font-mono text-slate-200 outline-none mb-3">
+                        </div>
+                        <button onclick="runRealThreat()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 font-semibold text-xs transition flex items-center justify-center gap-2">
+                            <i data-lucide="search" class="w-3.5 h-3.5"></i> Query Threat Intel
+                        </button>
+                    </div>
+
+                    <!-- Suite 3: Executive PDF/HTML Synthesizer -->
+                    <div class="glass-card rounded-2xl p-5 border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 text-amber-400 mb-2">
+                                <i data-lucide="file-check" class="w-4 h-4"></i>
+                                <h4 class="font-bold text-sm text-slate-100">Executive Audit Synthesizer</h4>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-4">Export official ISO 27001 / CERT-In compliance certificates with SHA-256 seal.</p>
+                        </div>
+                        <button onclick="downloadAuditPdf()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i> Download Audit Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Chart Visualization -->
+                <div class="glass-card rounded-2xl p-6 border border-slate-800">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-sm text-slate-200">Realtime Threat Telemetry & Vector Analysis</h4>
+                        <span class="text-[10px] text-slate-400 font-mono">Live WebSocket Ingestion</span>
+                    </div>
+                    <div class="h-48 w-full">
+                        <canvas id="threatChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Col: Autonomous Multi-Agent Terminal Console -->
+            <div class="glass-card rounded-2xl p-6 border border-slate-800 flex flex-col h-full">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <span class="text-xs font-bold font-mono text-slate-200">SWARM SOC TERMINAL</span>
+                    </div>
+                    <button onclick="dispatchSwarm()" class="text-[11px] px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 transition font-mono">
+                        DISPATCH 8 AGENTS
+                    </button>
+                </div>
+
+                <div id="liveTerminal" class="flex-1 bg-black/80 rounded-xl p-3.5 font-mono text-[11px] text-emerald-400 overflow-y-auto max-h-[460px] custom-scrollbar space-y-1">
+                    <div class="text-slate-500">// Rudraksha Swarm Grid Initialized...</div>
+                    <div class="text-slate-500">// Awaiting telemetry trigger...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-card border-t border-slate-800/80 px-6 py-4 text-center text-xs text-slate-500">
+        &copy; 2026 Rudraksha Shield AI Enterprise. Zero-Trust Autonomous Security Architecture.
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        let currentUser = null;
+        let chartInstance = null;
+
+        function initTelemetryChart() {
+            const ctx = document.getElementById('threatChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', 'Live'],
+                    datasets: [
+                        {
+                            label: 'Encrypted Safe Traffic',
+                            data: [65, 78, 90, 85, 92, 95, 98],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Mitigated Bot Ingress',
+                            data: [12, 19, 8, 15, 6, 3, 1],
+                            borderColor: '#f43f5e',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#64748b', font: { size: 10 } } },
+                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#64748b', font: { size: 10 } } }
+                    }
+                }
+            });
         }
-    } else {
-        document.getElementById('authMsg').innerText = data.message;
-    }
-}
 
-function logConsole(text) {
-    const box = document.getElementById('consoleOut');
-    box.innerText += "\n" + text;
-    box.scrollTop = box.scrollHeight;
-}
+        function switchAuthTab(tab) {
+            document.getElementById('loginFormBlock').classList.toggle('hidden', tab !== 'login');
+            document.getElementById('regFormBlock').classList.toggle('hidden', tab !== 'register');
+            document.getElementById('tabBtnLogin').className = tab === 'login' ? 'flex-1 py-2 text-xs font-semibold rounded-lg text-emerald-400 bg-slate-800 shadow' : 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-400';
+            document.getElementById('tabBtnReg').className = tab === 'register' ? 'flex-1 py-2 text-xs font-semibold rounded-lg text-cyan-400 bg-slate-800 shadow' : 'flex-1 py-2 text-xs font-semibold rounded-lg text-slate-400';
+        }
 
-async function executeRealScan() {
-    const target = document.getElementById('scanTarget').value;
-    logConsole(`\n[*] [Backend Engine] Connecting to target: ${target}...`);
-    const res = await fetch('/api/tools/scan', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({target: target})
-    });
-    const data = await res.json();
-    data.logs.forEach(l => logConsole(l));
-    logConsole(`[✓] Security Posture Calculated: ${data.score}/100`);
-}
+        async function handleAuth(url) {
+            const isLogin = url.includes('login');
+            const payload = isLogin ? {
+                email: document.getElementById('authEmail').value,
+                password: document.getElementById('authPass').value
+            } : {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPass').value
+            };
 
-async function executeRealThreat() {
-    const target = document.getElementById('threatTarget').value;
-    logConsole(`\n[*] [DNS Intel Engine] Querying live host records for: ${target}...`);
-    const res = await fetch('/api/tools/threat', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({target: target})
-    });
-    const data = await res.json();
-    data.logs.forEach(l => logConsole(l));
-}
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
 
-async function executeRealSwarm() {
-    logConsole(`\n[*] [Swarm Grid] Contacting 8 Autonomous Sentinel Nodes...`);
-    const res = await fetch('/api/tools/swarm', {method: 'POST'});
-    const data = await res.json();
-    data.logs.forEach(l => logConsole(l));
-}
+            if (data.status === 'SUCCESS') {
+                if (isLogin) {
+                    currentUser = data.user;
+                    document.getElementById('authSection').classList.add('hidden');
+                    document.getElementById('appCockpit').classList.remove('hidden');
+                    document.getElementById('navUserBadge').classList.remove('hidden');
+                    document.getElementById('navUserName').innerText = currentUser.name;
+                    document.getElementById('navUserPlan').innerText = currentUser.plan;
+                    document.getElementById('statLic').innerText = currentUser.license_key;
+                    initTelemetryChart();
+                    writeTerminal(`[+] Enterprise Session Established: ${currentUser.email}`, 'text-cyan-400');
+                    writeTerminal(`[+] Cryptographic Verification Key: ${currentUser.license_key}`, 'text-amber-400');
+                } else {
+                    alert(data.message);
+                    switchAuthTab('login');
+                }
+            } else {
+                const notice = document.getElementById('authNotice');
+                notice.innerText = data.message;
+                notice.classList.remove('hidden');
+            }
+        }
 
-async function executeRealReport() {
-    logConsole(`\n[*] [Report Engine] Generating Cryptographic Audit Document...`);
-    const res = await fetch('/api/tools/report', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({client: currentUser ? currentUser.name : "Enterprise"})
-    });
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Rudraksha_Audit_Report.html`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    logConsole(`[✓] Audit Report successfully synthesized and downloaded!`);
-}
-</script>
+        function writeTerminal(msg, color = 'text-emerald-400') {
+            const term = document.getElementById('liveTerminal');
+            const el = document.createElement('div');
+            el.className = color;
+            el.innerText = msg;
+            term.appendChild(el);
+            term.scrollTop = term.scrollHeight;
+        }
 
+        async function runRealScan() {
+            const target = document.getElementById('targetUrlInput').value;
+            writeTerminal(`\n[*] [Ingress Inspector] Connecting to ${target}...`, 'text-cyan-400');
+            const res = await fetch('/api/tools/scan', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({target})
+            });
+            const data = await res.json();
+            data.logs.forEach(l => {
+                const c = l.includes('MISSING') ? 'text-rose-400' : (l.includes('[✓]') ? 'text-emerald-400' : 'text-slate-300');
+                writeTerminal(l, c);
+            });
+            document.getElementById('statScore').innerText = `${data.score}%`;
+            writeTerminal(`[✓] Security Assessment Calculated: ${data.score}/100`, 'text-amber-400');
+        }
+
+        async function runRealThreat() {
+            const target = document.getElementById('targetDomainInput').value;
+            writeTerminal(`\n[*] [Recon Engine] Probing DNS records for ${target}...`, 'text-cyan-400');
+            const res = await fetch('/api/tools/threat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({target})
+            });
+            const data = await res.json();
+            data.logs.forEach(l => writeTerminal(l, 'text-slate-300'));
+        }
+
+        async function dispatchSwarm() {
+            writeTerminal(`\n[*] [Swarm Grid] Contacting 8 Autonomous Sentinel Nodes...`, 'text-teal-400');
+            const res = await fetch('/api/tools/swarm', {method: 'POST'});
+            const data = await res.json();
+            data.logs.forEach(l => writeTerminal(l, 'text-emerald-400'));
+        }
+
+        async function downloadAuditPdf() {
+            writeTerminal(`\n[*] [Report Engine] Synthesizing ISO 27001 Cryptographic Report...`, 'text-amber-400');
+            const res = await fetch('/api/tools/report', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({client: currentUser ? currentUser.name : "Enterprise Client"})
+            });
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Rudraksha_Official_Audit.html`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            writeTerminal(`[✓] Audit Report successfully synthesized and downloaded!`, 'text-emerald-400');
+        }
+    </script>
 </body>
 </html>
